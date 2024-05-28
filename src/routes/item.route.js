@@ -8,7 +8,7 @@ router.post('/create', async (req, res, next) => {
     try {
         const { item_code, item_name, item_stat, item_price } = req.body;
 
-        const item_stat_json = JSON.stringify(item_stat);
+        const item_stat_json = JSON.stringify(item_stat); //stat JSON형식으로 저장
         
         // 아이템 생성
         const newItem = await prisma.item.create({
