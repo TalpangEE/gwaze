@@ -8,12 +8,14 @@ router.post('/create', async (req, res, next) => {
     try {
         const { item_code, item_name, item_stat, item_price } = req.body;
 
+        const item_stat_json = JSON.stringify(item_stat);
+        
         // 아이템 생성
         const newItem = await prisma.item.create({
             data: {
                 item_code,
                 item_name,
-                item_stat,
+                item_stat : item_stat_json,
                 item_price
             }
         });
@@ -24,7 +26,7 @@ router.post('/create', async (req, res, next) => {
     }
 });
 
-/** 아이템 수정 API **/
+// 아이템 수정 API 
 router.put('/:itemId', async (req, res, next) => {
     try {
         const { itemId } = req.params;
@@ -54,7 +56,7 @@ router.put('/:itemId', async (req, res, next) => {
     }
 });
 
-/** 아이템 목록 조회 API **/
+// 아이템 목록 조회 API 
 router.get('/itemList', async (req, res, next) => {
     try {
         // 모든 아이템 조회
@@ -72,13 +74,13 @@ router.get('/itemList', async (req, res, next) => {
     }
 });
 
-/** 아이템 상세 조회 API **/
+// 아이템 상세 조회 API 
 router.get('/:itemId', async (req, res, next) => {
     try {
         const { itemId } = req.params;
 
         // 아이템 조회
-        const item = await prisma.ites.findFirst({
+        const item = await prisma.item.findFirst({
             where: { item_code: parseInt(itemId) }
         });
 
