@@ -1,6 +1,7 @@
 import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
 import authMiddleware from '../middleware/authMiddleware.js';
+import characterIdAuthMiddleware from '../middleware/characterIdAuthMiddleware.js';
 
 const router = express.Router();
 
@@ -69,7 +70,7 @@ router.delete('/delete/:characterId', authMiddleware, async (req, res, next) => 
 
 
 // 캐릭터 상세 조회 
-router.get('/:characterId', authMiddleware, async (req, res, next) => {
+router.get('/:characterId', characterIdAuthMiddleware, async (req, res, next) => {
   try {
     const { characterId } = req.params;
 
@@ -86,20 +87,20 @@ router.get('/:characterId', authMiddleware, async (req, res, next) => {
     const isMyCharacter = character.UserId === req.userId;
 
     // 내 캐릭터이거나 로그인하지 않은 경우
-    if (isMyCharacter || !req.userId) {
+    if (isMyCharacter) {
       return res.status(200).json({
         name: character.name,
         health: character.health,
-        power: character.power
+        power: character.power,
+        money: character.money
       });
     }
 
-    // 다른 유저의 캐릭터인 경우
+    // 다른 유저의 캐릭터인 경우 제한된 정보 반환
     return res.status(200).json({
       name: character.name,
       health: character.health,
-      power: character.power,
-      money: character.money
+      power: character.power
     });
   } catch (err) {
     next(err);
