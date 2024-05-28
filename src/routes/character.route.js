@@ -49,7 +49,7 @@ router.delete('/delete/:characterId', authMiddleware, async (req, res, next) => 
 
     // 캐릭터가 현재 사용자 소유인지 확인
     const character = await prisma.characters.findFirst({
-      where: { characterId: parseInt(characterId), userId: req.userId }
+      where: { characterId: parseInt(characterId), UserId: req.userId }
     });
 
     if (!character) {
@@ -68,44 +68,41 @@ router.delete('/delete/:characterId', authMiddleware, async (req, res, next) => 
 });
 
 
-// // 캐릭터 상세 조회 
-// router.get('/:characterId', authMiddleware, async (req, res, next) => {
-//   try {
-//     const { characterId } = req.params;
+// 캐릭터 상세 조회 
+router.get('/:characterId', authMiddleware, async (req, res, next) => {
+  try {
+    const { characterId } = req.params;
 
-//     // 캐릭터 조회
-//     const character = await prisma.characters.findFirst({
-//       where: { 
-//         id: parseInt(characterId),
-//         userId: req.userId 
-//       }
-//     });
+    // 캐릭터 조회
+    const character = await prisma.characters.findFirst({
+      where: { characterId: parseInt(characterId), UserId: req.userId }
+    });
 
-//     if (!character) {
-//       return res.status(404).json({ message: '캐릭터를 찾을 수 없습니다.' });
-//     }
+    if (!character) {
+      return res.status(404).json({ message: '캐릭터를 찾을 수 없습니다.' });
+    }
 
-//     // 내 캐릭터인지 확인
-//     const isMyCharacter = character.UserId === req.userId;
+    // 내 캐릭터인지 확인
+    const isMyCharacter = character.UserId === req.userId;
 
-//     // 내 캐릭터이거나 로그인하지 않은 경우
-//     if (isMyCharacter || !req.userId) {
-//       return res.status(200).json({
-//         name: character.name,
-//         health: character.health,
-//         power: character.power
-//       });
-//     }
+    // 내 캐릭터이거나 로그인하지 않은 경우
+    if (isMyCharacter || !req.userId) {
+      return res.status(200).json({
+        name: character.name,
+        health: character.health,
+        power: character.power
+      });
+    }
 
-//     // 다른 유저의 캐릭터인 경우
-//     return res.status(200).json({
-//       name: character.name,
-//       health: character.health,
-//       power: character.power,
-//       money: character.money
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+    // 다른 유저의 캐릭터인 경우
+    return res.status(200).json({
+      name: character.name,
+      health: character.health,
+      power: character.power,
+      money: character.money
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 export default router;
