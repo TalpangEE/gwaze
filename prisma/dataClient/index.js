@@ -149,6 +149,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -174,8 +178,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./dataClient\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Users {\n  userId   Int    @id @default(autoincrement()) @map(\"user_id\")\n  name     String @map(\"name\")\n  id       String @unique @map(\"id\")\n  password String @map(\"password\")\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  character Characters[]\n\n  @@map(\"Users\")\n}\n\nmodel Characters {\n  characterId Int    @id @default(autoincrement()) @map(\"character_id\")\n  UserId      Int    @map(\"user_id\")\n  name        String @unique @map(\"name\")\n  health      Int    @default(500) @map(\"health\")\n  power       Int    @default(100) @map(\"power\")\n  money       Int    @default(10000) @map(\"money\")\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  user Users @relation(fields: [UserId], references: [userId], onDelete: Cascade)\n\n  @@map(\"Characters\")\n}\n\nmodel Item {\n  id         Int    @id @default(autoincrement())\n  item_code  Int    @unique\n  item_name  String\n  item_stat  String\n  item_price Int\n}\n",
-  "inlineSchemaHash": "e108d655db8ca6fbb370122400161a61169162ead4941975fe0f6011766b3846",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./dataClient\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Users {\n  userId   Int    @id @default(autoincrement()) @map(\"user_id\")\n  name     String @map(\"name\")\n  id       String @unique @map(\"id\")\n  password String @map(\"password\")\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  character Characters[]\n\n  @@map(\"Users\")\n}\n\nmodel Characters {\n  characterId Int    @id @default(autoincrement()) @map(\"character_id\")\n  UserId      Int    @map(\"user_id\")\n  name        String @unique @map(\"name\")\n  health      Int    @default(500) @map(\"health\")\n  power       Int    @default(100) @map(\"power\")\n  money       Int    @default(10000) @map(\"money\")\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  user Users @relation(fields: [UserId], references: [userId], onDelete: Cascade)\n\n  @@map(\"Characters\")\n}\n\nmodel Item {\n  id         Int    @id @default(autoincrement())\n  item_code  Int    @unique\n  item_name  String\n  item_stat  String\n  item_price Int\n}\n",
+  "inlineSchemaHash": "71e3e7e7a7d393dfec5653948b9812e92473e266523baa40f8d8c716d9499c12",
   "copyEngine": true
 }
 
@@ -215,6 +219,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "prisma/dataClient/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "prisma/dataClient/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "prisma/dataClient/schema.prisma")
