@@ -3,8 +3,8 @@ import { prisma } from '../utils/prisma/index.js';
 
 const router = express.Router();
 
-/** 아이템 생성 API **/
-router.post('/createItem', async (req, res, next) => {
+//아이템 생성 API 
+router.post('/create', async (req, res, next) => {
     try {
         const { item_code, item_name, item_stat, item_price } = req.body;
 
