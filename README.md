@@ -1,5 +1,4 @@
-API 명세서 
-https://www.notion.so/412fbeb1d26d40aea6f9534836c8385a?v=7de9b9c1d3aa419cab81fd202fc97123
+[API 명세서] https://www.notion.so/412fbeb1d26d40aea6f9534836c8385a?v=7de9b9c1d3aa419cab81fd202fc97123
 
 
 1. **암호화 방식**
